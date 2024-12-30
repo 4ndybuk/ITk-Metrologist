@@ -1,4 +1,4 @@
-# ITk Metrologist
+# ITk Metrologist v2.1.0
 Multifunctional program designed for data analysis, management and automation within CERN's Inner Tracker Pixel Core Assembly
 
 ## Details
