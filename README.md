@@ -5,20 +5,25 @@ Multifunctional program designed for data analysis, management and automation wi
 - [Installation](#installation)
 - [Usage](#usage)
 - [Features](#features)
-- [Contributing](#contributing)
-- [License](#license)
+- [Acknowledgments](#acknowledgments)
 
 ## Installation
 1. Ensure that you have the latest version of Python on your device - Link: https://www.python.org/downloads/
-2. In the Python folder, open Python Launcher and ensure that you have the interpreter set and "Allow override with #! in script" is left unchecked
+2. In the Python folder, open Python Launcher and ensure that you have the interpreter path set and "Allow override with #! in script" is left unchecked
+3. Run the "Install Packages.py" file which will install all the required dependencies
+4. Use "main.py" to run the program at any times
 
+## Usage
+1. The program requires an existing account to the ITk Production Database, use both passwords to login
+2. To make the login process easier, Open the ⚙️ in the toolbar, store your passwords in the file and save it
+3. Have your bluetooth QR/barcode connected to the device to be used for the "Scan Components" feature
 
-Multifunctional program designed for data analysis, managemement and automation within the Inner Tracker Pixel core assembly
-• Requires an ITk Production Database account for login
-• Designed to handle large .DAT, .STA and .CSV files obtained from metrology and wirebond testing
-• Allows instant generation of Test Run uploads to the production database and retrieval of necessary component/tests information
-• Introduces spreadsheet data organsiation via automated Google Sheets uploads (Please enquire personally for credentials.json to use      this function)
-• Supports Bluetooth QR/barcode scanners for IREF Fetcher and Scan Components inputs
+## Features
+1. Metrology - Analyses data obtained from each of the pixel assembly stages: Hybrid Flex, Bare Module and Assembled Module. Takes .DAT and .STA file as inputs, displays information on the custom logger and allows uploads to the production database and Google sheets
+2. Wirebonding - Analyses data obtained from the wirebond pull tests. Takes .CSV file as an input, displays information on the custom logger and allows upload to the production database only
+3. IREF Fetcher - Retrieves information from the database about the IREF bit values of bare modules and displays the chip orientations based on their hexadecimal encoding
+4. Scan Components - Stores QR/barcode scanned components in a table for more efficient list organsiation and instant access to the component's profile in the production database
 
-To allow instant login upon start:
-  • Click on the cogwheel in the toolbar, store your passwords and save the file
+## Acknowledgments
+1. Thanks to Pixel perfect (gear), zafdesign (webApp), Freepik (information and gsheets) and Stockio (database) from www.flaticon.com for Icons
+2. Program designed using QT Framework for Python - PySide6
