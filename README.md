@@ -1,5 +1,5 @@
 # ITk Metrologist
-Multifunctional program designed for data analysis, management and automation within CERN's Inner Tracker Pixel Core Assembly.
+Multifunctional program designed for data analysis, management and automation within CERN's Inner Tracker Pixel Core Assembly
 
 ## Details
 ![itkdb](https://img.shields.io/badge/itkdb-0.6.8-brightgreen)  
