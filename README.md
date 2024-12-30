@@ -32,8 +32,8 @@ Multifunctional program designed for data analysis, management and automation wi
 4. **Scan Components** - Stores QR/barcode scanned components in a table for more efficient list organsiation and instant access to the component's profile in the production database
 
 ## Acknowledgments
-1. Thanks to Pixel perfect (gear), zafdesign (webApp), Freepik (information and gsheets) and Stockio (database) from www.flaticon.com for Icons
-2. Program designed using QT Framework for Python - PySide6 ()
+1. Thanks to Pixel perfect, zafdesign, Freepik and Stockio from www.flaticon.com for Icons
+2. Program designed using QT Framework for Python - PySide6
 3. Program powered by itkdb - ITk Production Database wrapper API
 4. Graphical plots delivered by Plotly - www.plotly.com
 
