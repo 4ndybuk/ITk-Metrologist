@@ -35,7 +35,7 @@ Multifunctional program designed for data analysis, management and automation wi
 1. Thanks to Pixel perfect (gear), zafdesign (webApp), Freepik (information and gsheets) and Stockio (database) from www.flaticon.com for Icons
 2. Program designed using QT Framework for Python - PySide6 ()
 3. Program powered by itkdb - ITk Production Database wrapper API
-4. Graphical plots delivered by Plotly - https://plotly.com
+4. Graphical plots delivered by Plotly - www.plotly.com
 
 ## License
 1. This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
