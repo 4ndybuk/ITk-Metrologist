@@ -4,7 +4,7 @@ Multifunctional program designed for data analysis, management and automation wi
 ## Details
 ![itkdb](https://img.shields.io/badge/itkdb-0.6.8-brightgreen)  
 ![PySide6](https://img.shields.io/badge/PySide6-6.7.2-brightgreen)  
-![Plotly](https://img.shields.io/badge/Plotly-5.22.0-brightgreen)
+![Plotly](https://img.shields.io/badge/Plotly-5.22.0-brightgreen)  
 ![License](https://img.shields.io/badge/license-GPLv3.0-blue)  
 
 ## Table of Contents
