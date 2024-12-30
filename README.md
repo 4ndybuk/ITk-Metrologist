@@ -6,6 +6,7 @@ Multifunctional program designed for data analysis, management and automation wi
 - [Usage](#usage)
 - [Features](#features)
 - [Acknowledgments](#acknowledgments)
+- [License](#license)
 
 ## Installation
 1. Ensure that you have the latest version of Python on your device - Link: https://www.python.org/downloads/
@@ -27,3 +28,6 @@ Multifunctional program designed for data analysis, management and automation wi
 ## Acknowledgments
 1. Thanks to Pixel perfect (gear), zafdesign (webApp), Freepik (information and gsheets) and Stockio (database) from www.flaticon.com for Icons
 2. Program designed using QT Framework for Python - PySide6
+
+## License
+This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
