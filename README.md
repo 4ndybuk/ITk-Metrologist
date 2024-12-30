@@ -1,4 +1,18 @@
 # ITk Metrologist
+Multifunctional program designed for data analysis, management and automation within CERN's Inner Tracker Pixel Core Assembly.
+
+## Table of Contents
+- [Installation](#installation)
+- [Usage](#usage)
+- [Features](#features)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Installation
+1. Ensure that you have the latest version of Python on your device - Link: https://www.python.org/downloads/
+2. In the Python folder, open Python Launcher and ensure that you have the interpreter set and "Allow override with #! in script" is left unchecked
+
+
 Multifunctional program designed for data analysis, managemement and automation within the Inner Tracker Pixel core assembly
 • Requires an ITk Production Database account for login
 • Designed to handle large .DAT, .STA and .CSV files obtained from metrology and wirebond testing
