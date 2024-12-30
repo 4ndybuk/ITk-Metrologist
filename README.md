@@ -1,12 +1,17 @@
 # ITk Metrologist
 Multifunctional program designed for data analysis, management and automation within CERN's Inner Tracker Pixel Core Assembly.
 
+## Details
+![itkdb](https://img.shields.io/badge/itkdb-0.6.8-brightorange)  
+![PySide6](https://img.shields.io/badge/PySide6-6.7.2-brightorange)  
+![License](https://img.shields.io/badge/license-GPLv3.0-blue)  
+
 ## Table of Contents
 - [Installation](#installation)
 - [Usage](#usage)
 - [Features](#features)
 - [Acknowledgments](#acknowledgments)
-- [License](#license) ![License](https://img.shields.io/badge/license-GPLv3.0-blue)
+- [License](#license) 
 
 ## Installation
 1. Ensure that you have the latest version of Python on your device - Link: https://www.python.org/downloads/
@@ -27,8 +32,8 @@ Multifunctional program designed for data analysis, management and automation wi
 
 ## Acknowledgments
 1. Thanks to Pixel perfect (gear), zafdesign (webApp), Freepik (information and gsheets) and Stockio (database) from www.flaticon.com for Icons
-2. Program designed using QT Framework for Python - PySide6 (https://img.shields.io/badge/PySide6-6.7.2-brightorange)
-3. Program powered by itkdb - ITk Production Database wrapper API (https://img.shields.io/badge/itkdb-0.6.8-brightorange)
+2. Program designed using QT Framework for Python - PySide6 ()
+3. Program powered by itkdb - ITk Production Database wrapper API
 
 ## License
 1. This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
