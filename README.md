@@ -32,4 +32,4 @@ Multifunctional program designed for data analysis, management and automation wi
 
 ## License
 ![License](https://img.shields.io/badge/license-GPLv3.0-blue)
-This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
+1. This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
