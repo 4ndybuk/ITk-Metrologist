@@ -29,7 +29,7 @@ Multifunctional program designed for data analysis, management and automation wi
 1. **Metrology** - Analyses data obtained from each of the pixel assembly stages: Hybrid Flex, Bare Module and Assembled Module. Takes .DAT and .STA file as inputs, displays information on the custom logger and allows uploads to the production database and Google sheets
 2. **Wirebonding** - Analyses data obtained from the wirebond pull tests. Takes .CSV file as an input, displays information on the custom logger and allows upload to the production database only
 3. **IREF Fetcher** - Retrieves information from the database about the IREF bit values of bare modules and displays the chip orientations based on their hexadecimal encoding
-4. **Scan Components** - Stores QR/barcode scanned components in a table for more efficient list organsiation and instant access to the component's profile in the production database
+4. **Scan Components** - Stores QR/barcode scanned components in a table for more efficient list organisation and instant access to the component's profile in the production database
 
 ## Acknowledgments
 1. Thanks to Pixel perfect, zafdesign, Freepik and Stockio from www.flaticon.com for Icons
