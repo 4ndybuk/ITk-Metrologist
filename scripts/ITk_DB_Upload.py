@@ -1,10 +1,25 @@
+from PySide6.QtWidgets import QMessageBox, QApplication, QInputDialog
+from PySide6.QtCore import Qt
 from datetime import datetime, timezone
 import re
-from tkinter import simpledialog
 import logging
-import tkinter.messagebox as box
 import webbrowser
 from itkdb import Client
+from itertools import islice
+
+def operator_identity():
+    name, ok = QInputDialog.getText(None, "Operator Identity", "Please input the operator's name:")
+    if ok:
+        return name
+
+def measurement_date():
+    date_time, ok = QInputDialog.getText(None, "Measurement Date", "Please input the measurement date in dd/mm/yy hh:mm format")
+    if ok:
+        # parse time inout string into a datetime object
+        parsed_time = datetime.strptime(date_time, "%d/%m/%y %H:%M")
+        parsed_time = parsed_time.replace(tzinfo=timezone.utc)
+        formatted_time = parsed_time.strftime("%Y-%m-%dT%H:%M%z")
+        return formatted_time
 
 def upload_itk(component: dict,results: dict,client: Client,csv_path):
         
@@ -45,8 +60,7 @@ def upload_itk(component: dict,results: dict,client: Client,csv_path):
                     "passed": check_passed(results["flex_results"]["pass_fail"]),
                     "problems": False,
                     "properties": {
-                        "OPERATOR": simpledialog.askstring(title="Operator Name",
-                                                            prompt="Please input operator name:"),
+                        "OPERATOR": operator_identity(),
                         "INSTRUMENT": "Smartscope OGP",
                         "ANALYSIS_VERSION": None
                     },
@@ -65,7 +79,7 @@ def upload_itk(component: dict,results: dict,client: Client,csv_path):
                     }
         
         # Perform safety checks on the component before uploading
-        safety_check(component,test_json,test_dict["flextype"],test_dict["flexstage"])
+        safety_check(component,test_json,test_dict["flextype"],test_dict["flexstage"],test_dict)
 
     if re.match(test_dict["baretype"],component['componentType']['code'], re.IGNORECASE):
 
@@ -78,7 +92,10 @@ def upload_itk(component: dict,results: dict,client: Client,csv_path):
                     "passed": check_passed(results["bare_results"]["pass_fail"]),
                     "problems": False,
                     "properties": {
-                        "ANALYSIS_VERSION": None
+                        "ANALYSIS_VERSION": None,
+                        "MEASUREMENT_DATE": measurement_date(),
+                        "MEASUREMENT_DURATION": None,
+                        "OPERATOR_IDENTITY": operator_identity()
                     },
                     "results": {
                         "SENSOR_X": results["bare_results"]["sensor_x"],
@@ -94,7 +111,7 @@ def upload_itk(component: dict,results: dict,client: Client,csv_path):
                     }
                     }
         
-        safety_check(component,test_json,test_dict["baretype"],test_dict["barestage"])
+        safety_check(component,test_json,test_dict["baretype"],test_dict["barestage"],test_dict)
         
     if re.match(test_dict["assemtype"], component['componentType']['code'], re.IGNORECASE) and csv_path == "":
         
@@ -107,7 +124,10 @@ def upload_itk(component: dict,results: dict,client: Client,csv_path):
                     "passed": check_passed(results["assem_results"]["pass_fail"]),
                     "problems": False,
                     "properties": {
-                        "ANALYSIS_VERSION": None
+                        "ANALYSIS_VERSION": None,
+                        "MEASUREMENT_DATE": measurement_date(),
+                        "MEASUREMENT_DURATION": None,
+                        "OPERATOR_IDENTITY": operator_identity()
                     },
                     "results": {
                         "DISTANCE_PCB_BARE_MODULE_TOP_LEFT": results["assem_results"]["fiducial_tl"],
@@ -120,11 +140,10 @@ def upload_itk(component: dict,results: dict,client: Client,csv_path):
                     }
                     }
         
-        safety_check(component,test_json,test_dict["assemtype"],test_dict["assemstage"])
-    
+        safety_check(component,test_json,test_dict["assemtype"],test_dict["assemstage"],test_dict)
+
     if re.match(test_dict["assemtype"], component['componentType']['code'], re.IGNORECASE) and csv_path != "":
         test_json = {
-
                     "component": component['code'],
                     "testType": "WIREBOND_PULL_TEST",
                     "institution": "LIV",
@@ -134,7 +153,10 @@ def upload_itk(component: dict,results: dict,client: Client,csv_path):
                     "problems": False,
                     "properties": {
                         "INSTRUMENT": "Dage 4000 Plus",
-                        "ANALYSIS_VERSION": None,  
+                        "ANALYSIS_VERSION": None,
+                        "MEASUREMENT_DATE": measurement_date(),
+                        "MEASUREMENT_DURATION": None,
+                        "OPERATOR_IDENTITY": operator_identity()
                     },
                     "results": {
                         "WIRE_PULLS": results["pulltest"]["numberofwires"],
@@ -152,7 +174,7 @@ def upload_itk(component: dict,results: dict,client: Client,csv_path):
                     }
                     }
         
-        safety_check(component,test_json,test_dict["assemtype"],test_dict["wirestage"])
+        safety_check(component,test_json,test_dict["assemtype"],test_dict["wirestage"],test_dict)
 
     # Attempting the upload of metrology values to the DB
     try:
@@ -209,7 +231,7 @@ def check_passed(list: list):
         result = False
     return result
 
-def safety_check(component,test_json,type,stage):
+def safety_check(component,test_json,type,stage,test_dict: dict):
     
     """
     Performs a safety check on the given component by assuring the right component
@@ -238,8 +260,19 @@ def safety_check(component,test_json,type,stage):
                         >>> Ceasing upload now...
                         """)
         return
-
-    if component['currentStage']['code'] != stage:
+    
+    if stage == "MODULE/WIREBONDING":
+        back_stage = [value for key, value in islice(test_dict.items(),6)]
+        for element in back_stage:
+            if component['currentStage']['code'] == element:
+                QApplication.setAttribute(Qt.ApplicationAttribute.AA_DontUseNativeDialogs, True)
+                QMessageBox.critical(None,"Current Stage", 
+                "Component not set for Wirebonding in the production database.\nPlease change the stage before uploading the test results",
+                QMessageBox.Ok)
+                QApplication.setAttribute(Qt.ApplicationAttribute.AA_DontUseNativeDialogs, False)
+                return
+            
+    elif component['currentStage']['code'] != stage:
         logging.error(f"""
                         WARNING:
                         Component stage in DB {component['currentStage']['code']}
@@ -255,14 +288,12 @@ def stage_call(stage,test_json):
         YES - sets the test_josn as isRetroactive: True
         NO = Stopping the upload process and returning to the step before
     """
-
-    call_choice = box.askquestion("Component Stage", f"""
-                        Component stage does not match the 
-                        one required for metrology upload.
-                        Would you like to set the component as
-                        Retroactive?
-                                """)
-    if call_choice == "yes":
+    QApplication.setAttribute(Qt.ApplicationAttribute.AA_DontUseNativeDialogs, True)
+    call_choice = QMessageBox.question(None,"Component Stage",
+    "Component stage does not match the one required for metrology upload\nWould you like to set the component as Retroactive?",
+    QMessageBox.Yes | QMessageBox.No)
+    QApplication.setAttribute(Qt.ApplicationAttribute.AA_DontUseNativeDialogs, False)
+    if call_choice == QMessageBox.Yes:
         try:
             test_json["stage"] = stage
             test_json["isRetroactive"] = True
@@ -276,7 +307,11 @@ def stage_call(stage,test_json):
         except Exception as e:
             print(e)
             logging.info(f"{e}")
-            box.showerror("Error", "Could not set the component as Retroactive")
+            QApplication.setAttribute(Qt.ApplicationAttribute.AA_DontUseNativeDialogs, True)
+            QMessageBox.critical(None, "Error", "Could not set the component as Retroactive", QMessageBox.Ok)
+            QApplication.setAttribute(Qt.ApplicationAttribute.AA_DontUseNativeDialogs, False)
     else:
-        box.showinfo("Upload Status", "Stopping the upload process")
+        QApplication.setAttribute(Qt.ApplicationAttribute.AA_DontUseNativeDialogs, True)
+        QMessageBox.information(None, "Upload Status", "Stopping the upload process", QMessageBox.Ok)
+        QApplication.setAttribute(Qt.ApplicationAttribute.AA_DontUseNativeDialogs, False)
         return
