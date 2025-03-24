@@ -13,13 +13,21 @@ def operator_identity():
         return name
 
 def measurement_date():
-    date_time, ok = QInputDialog.getText(None, "Measurement Date", "Please input the measurement date in dd/mm/yy hh:mm format")
-    if ok:
-        # parse time inout string into a datetime object
-        parsed_time = datetime.strptime(date_time, "%d/%m/%y %H:%M")
-        parsed_time = parsed_time.replace(tzinfo=timezone.utc)
-        formatted_time = parsed_time.strftime("%Y-%m-%dT%H:%M%z")
-        return formatted_time
+    try:
+        date_time, ok = QInputDialog.getText(None, "Measurement Date", "Please input the measurement date in dd/mm/yy hh:mm format")
+        if ok:
+            # parse time inout string into a datetime object
+            parsed_time = datetime.strptime(date_time, "%d/%m/%y %H:%M")
+            parsed_time = parsed_time.replace(tzinfo=timezone.utc)
+            formatted_time = parsed_time.strftime("%Y-%m-%dT%H:%M%z")
+            return formatted_time
+    except:
+        logging.error("Wrong measurement date format! Please try again")
+        QApplication.setAttribute(Qt.ApplicationAttribute.AA_DontUseNativeDialogs, True)
+        QMessageBox.critical(None,"Input Date Format ", "Input date is in a wrong format\n\nPlease try again",
+                                    QMessageBox.Ok)
+        QApplication.setAttribute(Qt.ApplicationAttribute.AA_DontUseNativeDialogs, False)
+        return str("Repeat")
 
 def upload_itk(component: dict,results: dict,client: Client,csv_path):
         
@@ -93,9 +101,10 @@ def upload_itk(component: dict,results: dict,client: Client,csv_path):
                     "problems": False,
                     "properties": {
                         "ANALYSIS_VERSION": None,
+                        "OPERATOR_IDENTITY": operator_identity(),
                         "MEASUREMENT_DATE": measurement_date(),
-                        "MEASUREMENT_DURATION": None,
-                        "OPERATOR_IDENTITY": operator_identity()
+                        "MEASUREMENT_DURATION": None
+                        
                     },
                     "results": {
                         "SENSOR_X": results["bare_results"]["sensor_x"],
@@ -125,9 +134,9 @@ def upload_itk(component: dict,results: dict,client: Client,csv_path):
                     "problems": False,
                     "properties": {
                         "ANALYSIS_VERSION": None,
+                        "OPERATOR_IDENTITY": operator_identity(),
                         "MEASUREMENT_DATE": measurement_date(),
-                        "MEASUREMENT_DURATION": None,
-                        "OPERATOR_IDENTITY": operator_identity()
+                        "MEASUREMENT_DURATION": None
                     },
                     "results": {
                         "DISTANCE_PCB_BARE_MODULE_TOP_LEFT": results["assem_results"]["fiducial_tl"],
@@ -154,9 +163,9 @@ def upload_itk(component: dict,results: dict,client: Client,csv_path):
                     "properties": {
                         "INSTRUMENT": "Dage 4000 Plus",
                         "ANALYSIS_VERSION": None,
+                        "OPERATOR_IDENTITY": operator_identity(),
                         "MEASUREMENT_DATE": measurement_date(),
-                        "MEASUREMENT_DURATION": None,
-                        "OPERATOR_IDENTITY": operator_identity()
+                        "MEASUREMENT_DURATION": None
                     },
                     "results": {
                         "WIRE_PULLS": results["pulltest"]["numberofwires"],
@@ -179,7 +188,7 @@ def upload_itk(component: dict,results: dict,client: Client,csv_path):
     # Attempting the upload of metrology values to the DB
     try:
         test_upload = client.post('uploadTestRunResults',json=test_json)
-        
+
     except Exception as e:
         print(e)
         logging.error(e)
