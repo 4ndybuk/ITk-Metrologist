@@ -580,8 +580,6 @@ class Ui_MainWindow(object):
         self.progressBar.setGeometry(QRect(33, 444, 637, 14))
         self.progressBar.setStyleSheet("""
                                         QProgressBar {
-                                                border: 1px solid #c0c0c0;
-                                                border-radius: 5px;
                                                 background-color: #87fa9a;
                                                 margin: 0px;
                                         }
