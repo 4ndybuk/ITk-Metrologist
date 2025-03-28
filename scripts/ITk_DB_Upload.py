@@ -87,7 +87,7 @@ def upload_itk(component: dict,results: dict,client: Client,csv_path):
                     }
         
         # Perform safety checks on the component before uploading
-        safety_check(component,test_json,test_dict["flextype"],test_dict["flexstage"],test_dict)
+        safety_check(component,test_json,test_dict["flextype"],test_dict["flexstage"],test_dict,client)
 
     if re.match(test_dict["baretype"],component['componentType']['code'], re.IGNORECASE):
 
@@ -120,7 +120,7 @@ def upload_itk(component: dict,results: dict,client: Client,csv_path):
                     }
                     }
         
-        safety_check(component,test_json,test_dict["baretype"],test_dict["barestage"],test_dict)
+        safety_check(component,test_json,test_dict["baretype"],test_dict["barestage"],test_dict,client)
         
     if re.match(test_dict["assemtype"], component['componentType']['code'], re.IGNORECASE) and csv_path == "":
         
@@ -149,7 +149,7 @@ def upload_itk(component: dict,results: dict,client: Client,csv_path):
                     }
                     }
         
-        safety_check(component,test_json,test_dict["assemtype"],test_dict["assemstage"],test_dict)
+        safety_check(component,test_json,test_dict["assemtype"],test_dict["assemstage"],test_dict,client)
 
     if re.match(test_dict["assemtype"], component['componentType']['code'], re.IGNORECASE) and csv_path != "":
         test_json = {
@@ -183,7 +183,7 @@ def upload_itk(component: dict,results: dict,client: Client,csv_path):
                     }
                     }
         
-        safety_check(component,test_json,test_dict["assemtype"],test_dict["wirestage"],test_dict)
+        safety_check(component,test_json,test_dict["assemtype"],test_dict["wirestage"],test_dict,client)
 
     # Attempting the upload of metrology values to the DB
     try:
@@ -240,12 +240,12 @@ def check_passed(list: list):
         result = False
     return result
 
-def safety_check(component,test_json,type,stage,test_dict: dict):
+def safety_check(component,test_json,type,stage,test_dict: dict,client: Client):
     
     """
     Performs a safety check on the given component by assuring the right component
     type and stage are set before metrology/pull-test is uploaded 
-    """
+    """ 
 
     # Safety checks for component type, stage and location
     if component['componentType']['code'] != type:
@@ -270,26 +270,37 @@ def safety_check(component,test_json,type,stage,test_dict: dict):
                         """)
         return
     
-    if stage == "MODULE/WIREBONDING":
-        back_stage = [value for key, value in islice(test_dict.items(),6)]
-        for element in back_stage:
-            if component['currentStage']['code'] == element:
-                QApplication.setAttribute(Qt.ApplicationAttribute.AA_DontUseNativeDialogs, True)
-                QMessageBox.critical(None,"Current Stage", 
-                "Component not set for Wirebonding in the production database.\nPlease change the stage before uploading the test results",
-                QMessageBox.Ok)
-                QApplication.setAttribute(Qt.ApplicationAttribute.AA_DontUseNativeDialogs, False)
-                return
-            
-    elif component['currentStage']['code'] != stage:
-        logging.error(f"""
-                        WARNING:
-                        Component stage in DB {component['currentStage']['code']}
-                        does not match that requested "{stage}".
+    if component['currentStage']['code'] != stage:
+        if component['currentStage']['code'] == test_dict["assemstage"] and stage == test_dict["wirestage"]:
+            QApplication.setAttribute(Qt.ApplicationAttribute.AA_DontUseNativeDialogs, True)
+            stage_choice = QMessageBox.critical(None,"Current Stage", 
+            "Component not set for Wirebonding in the production database.\n\nWould you like to set that stage before uploading?",
+            QMessageBox.Yes | QMessageBox.No)
+            QApplication.setAttribute(Qt.ApplicationAttribute.AA_DontUseNativeDialogs, False)
+            if stage_choice == QMessageBox.Yes:
+                try:
+                    new_stage = client.post('setComponentStage',
+                                        json={'component' : component['code'],
+                                                'stage': test_dict["wirestage"]})
+                    logging.info(f""" 
+                                 UPDATE:
+                                 New stage has been set to {test_dict["wirestage"]} succesfully
 
-                        Displaying a prompt for Retroaction...
-                        """)
-        stage_call(stage,test_json)
+                                 Continuing with the uplad process....
+                                 """)
+                except Exception as e:
+                    logging.error(f"Error in stage change\n\n{e}")
+                    print(e)
+                    return
+        else:
+            logging.error(f"""
+                          WARNING:
+                          Component stage in DB {component['currentStage']['code']}
+                          does not match that requested "{stage}".
+
+                          Displaying a prompt for Retroaction...
+                          """)
+            stage_call(stage,test_json)
 
 def stage_call(stage,test_json):
     """
