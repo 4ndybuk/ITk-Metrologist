@@ -16,7 +16,7 @@ def measurement_date():
     try:
         date_time, ok = QInputDialog.getText(None, "Measurement Date", "Please input the measurement date in dd/mm/yy hh:mm format")
         if ok:
-            # parse time inout string into a datetime object
+            # parse time input string into a datetime object
             parsed_time = datetime.strptime(date_time, "%d/%m/%y %H:%M")
             parsed_time = parsed_time.replace(tzinfo=timezone.utc)
             formatted_time = parsed_time.strftime("%Y-%m-%dT%H:%M%z")

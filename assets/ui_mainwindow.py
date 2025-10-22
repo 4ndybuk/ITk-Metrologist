@@ -585,7 +585,7 @@ class Ui_MainWindow(object):
                                         }
                                         QProgressBar::chunk {
                                                 background-color: #87fa9a;
-                                                border-radius: 4px;
+                                                border-radius: 6px;
                                                 margin: 0px;
                                         }
                                         """)

@@ -67,4 +67,4 @@ def validate_login(db_passcode1: str, db_passcode2: str):
         messagebox.exec()
         QApplication.setAttribute(Qt.ApplicationAttribute.AA_DontUseNativeDialogs, False)
 
-        return False, None, None
+        return False, None, None 

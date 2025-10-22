@@ -10,7 +10,7 @@ import subprocess
 # Include the nested folders with modules and assets for importing
 sys.path.append(os.path.join(os.path.dirname(__file__), 'scripts'))
 sys.path.append(os.path.join(os.path.dirname(__file__), 'assets'))
-
+# 
 # GUI modules - Qt Framework
 from PySide6.QtWidgets import *
 from PySide6.QtCore import Qt, QSize
@@ -102,6 +102,11 @@ class MyApp(QMainWindow):
         webapp_action.setStatusTip("Open WebApp")
         webapp_action.triggered.connect(self.open_webapp)
         toolbar.addAction(webapp_action)
+
+        flask_action = QAction(QIcon("assets/icons/oxford.png"),"ITk Flask",self)
+        flask_action.setStatusTip("Open ITk Flask")
+        flask_action.triggered.connect(self.open_flask)
+        toolbar.addAction(flask_action)
         toolbar.addSeparator()
 
         about_action = QAction(QIcon("assets/icons/information.png"),"About",self)
@@ -183,7 +188,7 @@ class MyApp(QMainWindow):
 
         return verify
 
-    def db_login(self):
+    def db_login(self): 
         """
         Function which applies an imported def validate_login() from ITk_DB_Login.py
         it sets the passcode entries from Page 1 class and returns Pass/Fail on the login
@@ -199,9 +204,11 @@ class MyApp(QMainWindow):
         if valid:
             self.user = user
             self.client = client
+            fName = self.user['firstName']
+            lName = self.user['lastName']
             dict = {"title":"Welcome",
                     "maintext":"Login Successful",
-                    "info":f"Signed User: {self.user["firstName"]} {self.user["lastName"]}",
+                    "info": f"Signed User: {fName} {lName}",
                     "icon":QMessageBox.Information,
                     "button":QMessageBox.Ok}
             verify = self.custom_messagebox(dict["title"],dict["maintext"],dict["info"],dict["icon"],dict["button"])
@@ -209,7 +216,7 @@ class MyApp(QMainWindow):
             if verify == QMessageBox.Ok:
                 # Move to Page 2
                 self.ui.stackedWidget.setCurrentIndex(1)
-                self.status_user.setText(f"<b>Current User:  {self.user["firstName"]} {self.user["lastName"]}</b>")
+                self.status_user.setText(f"<b>Current User:  {fName} {lName}</b>")
                 self.ui.scanTab.scan_input.setFocus()
         else:
             dict = {"title":"Error",
@@ -230,6 +237,10 @@ class MyApp(QMainWindow):
     @staticmethod
     def open_webapp():
         webbrowser.open("https://itk-pdb-webapps-pixels.web.cern.ch",new=2)
+
+    @staticmethod
+    def open_flask():
+        webbrowser.open("https://itk-flask.web.cern.ch",new=2)
 
     @staticmethod
     def open_about():

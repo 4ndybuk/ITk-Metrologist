@@ -112,6 +112,7 @@ def hybrid_cells(sheet: gspread.Worksheet,row: int,results: dict,queue: multipro
     sheet.format(f"L{row}", {"backgroundColor": {"red": 0.85,"green": 0.85,"blue": 0.85}})
     queue.put(30)
     sheet.update_cell(row, 13, results["flex_results"]["avg_stdev"]*1000)
+    sheet.update_cell(row, 15, results['mass'])
     sheet.update_cell(row, 16, results["flex_results"]["hv_thickness"])
     sheet.update_cell(row, 17, results["flex_results"]["ftm_flex_thickness"])
 
@@ -122,6 +123,7 @@ def bare_cells(sheet: gspread.Worksheet,row: int,results: dict,queue: multiproce
     sheet.update_cell(row, 1, results['component_id'])
     queue.put(15)
     assembly_call(sheet,row,results)
+    sheet.update_cell(row, 6, results['mass'])
     sheet.update_cell(row, 7, results["bare_results"]["fe_x"])
     queue.put(20)
     sheet.update_cell(row, 8, results["bare_results"]["fe_y"])
@@ -145,8 +147,7 @@ def assem_cells(sheet: gspread.Worksheet,row: int,results: dict,queue: multiproc
     sheet.update_cell(row, 2, simpledialog.askstring(title="Date Assembled",
                                                             prompt="When was the module assembled? (dd/mm/yy)"))
     sheet.update_cell(row, 5, results['component_id'])
-    sheet.update_cell(row, 6, simpledialog.askstring(title="Carrier Frame",
-                                                            prompt="What is the Carrier Frame S/N?"))
+    sheet.update_cell(row, 6, results['carrier'])
     queue.put(20)
     sheet.update_cell(row, 7, f"https://itkpd-test.unicorncollege.cz/componentView?code={results['component']['code']}")
     sheet.update_cell(row, 8, results["assem_results"]["x_value"])
@@ -160,6 +161,7 @@ def assem_cells(sheet: gspread.Worksheet,row: int,results: dict,queue: multiproc
     sheet.update_cell(row, 14, mean(results["assem_results"]["avg_assem_thickness"]))
     sheet.update_cell(row, 15, results["assem_results"]["quad_stdev_all"])
     queue.put(35)
+    sheet.update_cell(row, 17, results['mass'])
     sheet.update_cell(row, 19, results["assem_results"]["ftm_thickness"]*0.001)
     sheet.update_cell(row, 20, results["assem_results"]["hv_assem_thickness"]*0.001)
 

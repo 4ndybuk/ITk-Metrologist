@@ -7,6 +7,7 @@ from ITk_ModuleProcessors import *
 from statistics import stdev,mean
 import math
 from itkdb import Client
+import json
 
 def met_measurements(dat_path,sta_path,dat_basename: str,sta_basename: str,client: Client):
     
@@ -17,7 +18,11 @@ def met_measurements(dat_path,sta_path,dat_basename: str,sta_basename: str,clien
     sta_prefix = sta_basename[:14]
 
     # Initialize results to None
-    results = {"flex_results": None, "bare_results": None, "assem_results": None}
+    results = {"flex_results": None,
+               "bare_results": None,
+               "assem_results": None,
+               "mass": None,
+               "carrier": None}
 
     # If the serial numbers match execute the measurements
     if dat_prefix == sta_prefix:
@@ -35,7 +40,22 @@ def met_measurements(dat_path,sta_path,dat_basename: str,sta_basename: str,clien
                                      QMessageBox.Ok)
             QApplication.setAttribute(Qt.ApplicationAttribute.AA_DontUseNativeDialogs, False)
             return False, None
-                
+        
+        # Retrieving component mass measurement for Google Sheet input
+        def get_mass(code: str):
+            try:
+                test_id = [item['id']
+                        for element in component['tests']
+                        for item in element['testRuns'][0:]
+                        if element['code'] == code]
+                test_run = client.get('getTestRun',
+                                        json={"testRun": test_id[0]})
+                mass = test_run['results'][0]['value']
+                return mass
+            except:
+                logging.error("Mass Measurement test run has not been found in the database" \
+                "\nConsider uploading it first before updating Google Sheets")
+            
         logging.info(f"""
                 Component mongoDB ID: {component['code']}
                 Component ATLAS ID: {component['serialNumber']}
@@ -63,10 +83,10 @@ def met_measurements(dat_path,sta_path,dat_basename: str,sta_basename: str,clien
 
             y_dimension = new_sta[-1][0]
             x_dimension = new_sta[-2][0]
-            quad_thickness = [row[2] for row in new_sta[-9:-5] if row[2] < 1.300]
-            avg_thickness = round(mean(quad_thickness),4)
+            ga_thickness = [row[2] for row in new_sta[-9:-5] if row[2] < 1.300]
+            avg_thickness = round(mean(ga_thickness),4)
             ftm_flex_thickness = new_sta[-10][2]
-            hv_thickness_list = [row[2] for row in new_sta[-23:-10] if row[2] > ftm_flex_thickness]
+            hv_thickness_list = [row[2] for row in new_sta[-13:-10] if row[2] > ftm_flex_thickness]
 
             # Ensuring that there is only one value pulled from the list which corresponds to the HV cap
             if len(hv_thickness_list) == 1:
@@ -79,44 +99,24 @@ def met_measurements(dat_path,sta_path,dat_basename: str,sta_basename: str,clien
                 logging.error("HV capacitor thickness does not contain exactly one element in the .STA file\n\nPlease check the file")
             
             # Chekcing that the X and Y values fit within acceptable specifications
-            if 39.50 <= x_dimension <= 39.70 and 40.50 <= y_dimension <= 40.70:
-                xy_envelope = True
-                xy_pass = True
-                flex_pass_fail.append(xy_pass)
-            else:
-                xy_envelope = False
-                xy_pass = False
-                flex_pass_fail.append(xy_pass)
-
+            xy_envelope = 39.50 <= x_dimension <= 39.70 and 40.50 <= y_dimension <= 40.70
+            flex_pass_fail.append(xy_envelope)
+           
             # Same specification check for the HV cap
-            if 1.701 <= hv_thickness <= 2.001:
-                hv_envelope = True
-                hv_pass = True
-                flex_pass_fail.append(hv_pass)
-            else:
-                hv_envelope = False
-                hv_pass = False
-                flex_pass_fail.append(hv_pass)
-            
+            hv_envelope = 1.701 <= hv_thickness <= 2.001
+            flex_pass_fail.append(hv_envelope)
+                        
             # And same specification check for indiviudal pick-up point thickness and FTM
-            for row in quad_thickness:
-                if 0.201 <= row <= 0.301:
-                    quad_pass = True
-                    flex_pass_fail.append(quad_pass)
-                else:
-                    quad_pass = False
-                    flex_pass_fail.append(quad_pass)
-            
-            if 1.521 <= ftm_flex_thickness <= 1.761:
-                ftm_pass = True
-                flex_pass_fail.append(ftm_pass)
-            else:
-                ftm_pass = False
-                flex_pass_fail.append(ftm_pass)
-            
+            for row in ga_thickness:
+                ga_pass = 0.201 <= row <= 0.301
+                flex_pass_fail.append(ga_pass)
+                            
+            ftm_pass = 1.521 <= ftm_flex_thickness <= 1.761
+            flex_pass_fail.append(ftm_pass)
+                       
             logging.info(f"""
             Average thickness of all pick up areas [mm]: {round(avg_thickness,3)}mm
-            Thickness of each pick up area [mm]: {quad_thickness}.
+            Thickness of each pick up area [mm]: {ga_thickness}.
             Thickness including the black body of power connector (excluding pins) [mm]: {ftm_flex_thickness}mm
             HV capacitor thickness [mm]: {hv_thickness}mm
             HV capacitor thickness within envelope: {hv_envelope}.
@@ -130,7 +130,7 @@ def met_measurements(dat_path,sta_path,dat_basename: str,sta_basename: str,clien
             
             results["flex_results"] = {"pass_fail": flex_pass_fail,
                                        "avg_thickness": round(avg_thickness,3),
-                                       "quad_thickness": quad_thickness,
+                                       "quad_thickness": ga_thickness,
                                        "ftm_flex_thickness": ftm_flex_thickness,
                                        "hv_thickness": hv_thickness,
                                        "hv_envelope": hv_envelope,
@@ -138,17 +138,15 @@ def met_measurements(dat_path,sta_path,dat_basename: str,sta_basename: str,clien
                                        "xy_envelope": xy_envelope,
                                        "x_dimension": x_dimension,
                                        "y_dimension": y_dimension}
+            results['mass'] = get_mass("MASS")
         
         if re.match(patterns["bare"], dat_basename, re.IGNORECASE) and re.match(patterns["bare"], sta_basename, re.IGNORECASE):
 
             processor = BareProcessor(new_dat)
             processor.process_all()
 
-            N_fe = [len(processor.fe1_data),len(processor.fe2_data),len(processor.fe3_data)]
-            mean_fe = [mean(processor.fe1_data),mean(processor.fe2_data),mean(processor.fe1_data)]
-            sigma_fe = [stdev(processor.fe1_data),stdev(processor.fe2_data),stdev(processor.fe3_data)]
-            avg_stdev_fe = combined_deviation(N_fe,sigma_fe,mean_fe)
-
+            # Standard deviations for the sensor and FE chips
+            avg_stdev_fe = stdev(processor.fe_data)
             avg_stdev_bare = stdev(processor.sensor_data)
 
             # Pass/Fail list
@@ -162,38 +160,22 @@ def met_measurements(dat_path,sta_path,dat_basename: str,sta_basename: str,clien
             sensor_x = new_sta[-8][0]
 
             # Pass/Fail criteria
-            if 40.255 <= fe_y <= 40.325 and 42.187 <= fe_x <= 42.257:
-                fe_pass = True
-                bare_pass_fail.append(fe_pass)
-            else:
-                fe_pass = False
-                bare_pass_fail.append(fe_pass)
-                
-            if 41.1 <= sensor_y <= 41.15 and 39.5 <= sensor_x <= 39.55:
-                sensor_pass = True
-                bare_pass_fail.append(sensor_pass)
-            else:
-                sensor_pass = False
-                bare_pass_fail.append(sensor_pass)
+            fe_pass = 40.200 <= fe_y <= 40.450 and 42.00 <= fe_x <= 42.350
+            bare_pass_fail.append(fe_pass)
 
-            if 285.0 <= avg_bare_thickness <= 415.0:
-                bare_thick_pass = True
-                bare_pass_fail.append(bare_thick_pass)
-            else:
-                bare_thick_pass = False
-                bare_pass_fail.append(bare_thick_pass)
-            
-            if 140.0 <= avg_fe_thickness <= 175.0:
-                fe_thick_pass = True
-                bare_pass_fail.append(fe_thick_pass)
-            else:
-                fe_thick_pass = False
-                bare_pass_fail.append(fe_thick_pass)
+            sensor_pass = 41.00 <= sensor_y <= 41.15 and 39.2 <= sensor_x <= 39.80
+            bare_pass_fail.append(sensor_pass)
 
+            bare_thick_pass = 250.0 <= avg_bare_thickness <= 415.0
+            bare_pass_fail.append(bare_thick_pass)
+                        
+            fe_thick_pass = 80.0 <= avg_fe_thickness <= 250.0
+            bare_pass_fail.append(fe_thick_pass)
+           
             logging.info(f"""
                 Average bare module thickness [µm]: {round(avg_bare_thickness)}µm
                 Std deviation of bare module thickness [µm]: {round(avg_stdev_bare*1000,3)}µm
-                FE chips x dimension [mm]: {fe_x}mm
+                FE chips x dimension [mm]: {fe_x}mm 
                 FE chips y dimension [mm]: {fe_y}mm
                 Average FE chip thickness [µm]: {round(avg_fe_thickness)}µm
                 Std deviation of FE chip thickness [µm]: {round(avg_stdev_fe*1000,3)}µm
@@ -212,6 +194,7 @@ def met_measurements(dat_path,sta_path,dat_basename: str,sta_basename: str,clien
                                        "avg_stdev_fe": round(avg_stdev_fe*1000,3),
                                        "sensor_x": sensor_x,
                                        "sensor_y": sensor_y}
+            results['mass'] = get_mass("MASS_MEASUREMENT")
             
         if re.match(patterns["assem"], dat_basename, re.IGNORECASE) and re.match(patterns["assem"], sta_basename, re.IGNORECASE):
 
@@ -231,59 +214,47 @@ def met_measurements(dat_path,sta_path,dat_basename: str,sta_basename: str,clien
             
             ftm_thickness = [float(val)*1000 for val in new_sta[-1]][0]
             hv_assem_thickness = [float(val)*1000 for val in new_sta[-2]][0]
-            fiducial_br = new_sta[-3]
-            fiducial_tl = new_sta[-4]
-            avg_assem_thickness = [float(row[2])*1000 for row in new_sta[-19:-15] if row[2] < 0.800]
-            x_value = [float(val) for val in new_sta[-9] if len(new_sta[-9]) == 1][0]
-            y_value = [float(val) for val in new_sta[-8] if 40.0 < val < 42.0][0]
+            fiducial_br = new_sta[-3][:2]
+            fiducial_tl = new_sta[-4][:2]
+            avg_assem_thickness = [float(row[2])*1000 for row in new_sta[-15:-11] if row[2] < 0.800]
+            x_value = [float(val) for val in new_sta[-7] if len(new_sta[-7]) == 1][0]
+            y_value = [float(val) for val in new_sta[-6] if 40.0 < val < 42.0][0]
 
             # Modified fiducial values to be in µm units
-            fiducial_br_micro = [fp*1000 for fp in fiducial_br]
-            fiducial_tl_micro = [fp*1000 for fp in fiducial_tl]
+            fiducial_br_micro = [round(fp*1000) for fp in fiducial_br]
+            fiducial_tl_micro = [round(fp*1000) for fp in fiducial_tl]
 
             #Pass/Fail Criteria
-            if 1781.0 <= ftm_thickness <= 2181.0:
-                ftm_pass = True
-                assem_pass_fail.append(ftm_pass)
-            else:
-                ftm_pass = False
-                assem_pass_fail.append(ftm_pass)
-            
-            if 1961.0 <= hv_assem_thickness <= 2531.0:
-                hv_pass = True
-                assem_pass_fail.append(hv_pass)
-            else:
-                hv_pass = False
-                assem_pass_fail.append(hv_pass)
-                
-            if 42.187 <= x_value <= 42.257 and 41.1 <= y_value <= 41.15:
-                xy_pass = True
-                assem_pass_fail.append(xy_pass)
-            else:
-                xy_pass = False
-                assem_pass_fail.append(xy_pass)
-            
+
+            ftm_pass = 1831.0 <= ftm_thickness <= 2231.0
+            assem_pass_fail.append(ftm_pass)
+
+            hv_pass = 2011.0 <= hv_assem_thickness <= 2581.0
+            assem_pass_fail.append(hv_pass)
+           
             for row in avg_assem_thickness:
-                if 466.0 <= row <= 721.0:
-                    assem_pass = True
-                    assem_pass_fail.append(assem_pass)
-                else:
-                    assem_pass = False
-                    assem_pass_fail.append(assem_pass)
+                assem_pass = row <= 771.0
+                assem_pass_fail.append(assem_pass)
             
-            if 2.112 <= fiducial_br[0] <= 2.312 and 0.550 <= fiducial_br[1] <= 0.750:
-                fbr_pass = True
-                assem_pass_fail.append(fbr_pass)
-            else:
-                fbr_pass = False
-                assem_pass_fail.append(fbr_pass)
+            def within_bounds(x,y):
+                return 2.119 <= x <= 2.319 and 0.650 <= y <= 0.850
             
-            if 2.112 <= fiducial_tl[0] <= 2.312 and 0.550 <= fiducial_tl[1] <= 0.750:
-                ftl_pass = True
-                assem_pass_fail.append(ftl_pass)
-            else:
-                ftl_pass = False
-                assem_pass_fail.append(ftl_pass)               
+            fbr_pass = within_bounds(*fiducial_br)
+            ftl_pass = within_bounds(*fiducial_tl)
+
+            assem_pass_fail.extend([fbr_pass,ftl_pass])
+
+            # Retrieve the carrier serial number
+            try:
+                carrier = [
+                    element['component']['serialNumber']
+                    for element in component['children']
+                    if element['type']['code'] == "CARRIER"
+                ][0]
+                results['carrier'] = carrier
+            except:
+                logging.info("The carrier serial number is not associated with the module in the database\n" \
+                "Consider updating this information before uploading to Google Sheets")
 
             logging.info(f"""
     Average module thickness at FE chip pick-up areas, 1 per FE [μm]: {avg_assem_thickness}
@@ -305,6 +276,7 @@ def met_measurements(dat_path,sta_path,dat_basename: str,sta_basename: str,clien
                                         "quad_stdev_all": quad_stdev_all,
                                         "x_value": x_value,
                                         "y_value": y_value}
+            results['mass'] = get_mass("MASS_MEASUREMENT")
 
         results["component_id"] = component_id
         results["component"] = component

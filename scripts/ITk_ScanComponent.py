@@ -102,7 +102,4 @@ def copy_table(table: QTableWidget, label: QLabel):
     # Store the info in clipboard
     clipboard.setText(contents.strip())
     if contents != "":
-        label.show()
-    
-    
-            
+        label.show()      

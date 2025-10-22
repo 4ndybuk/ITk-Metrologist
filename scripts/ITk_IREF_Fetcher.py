@@ -28,7 +28,7 @@ def iref_values(client: Client,bare_id: str):
                 if child['componentType']['code'] == "FE_CHIP":
                     serial_number = child['component']['serialNumber']
                     serial_list.append(serial_number)
-                    decimal = int(serial_number[9:])
+                    decimal = int(serial_number[8:])
                     # Converting serial IDs in decimal to hexadecimal to obtain chip ID
                     hex_number = hex(decimal)[5:]
                     hex_list.append(hex_number.upper())

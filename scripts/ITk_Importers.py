@@ -184,8 +184,9 @@ def acquire_data(file_name):
     acq_data = []
 
     with open(file_name, "r") as file:
+        lines = file.readlines()
 
-        for line_number,line in enumerate(file):
+        for line_number,line in enumerate(lines):
 
             line_new = line.rstrip()    # removes all escape/end of line characters at end of line
             if line_new == "" :
@@ -194,8 +195,12 @@ def acquire_data(file_name):
             if os.path.splitext(file_name)[1] == ".DAT":
 
                 line_list = line_new.split() # splits elements by empty white spaces
-                if len(line_list) != 3: 
-                    continue                 # ignores all lines which don't have 3 elements  
+
+                if len(line_list) != 3:
+                    continue                 # ignores all lines which don't have 3 elements
+
+                if line_list == [',HV', 'Capacitor', '(RHS)']:
+                    continue
 
             elif os.path.splitext(file_name)[1] == ".STA":
 

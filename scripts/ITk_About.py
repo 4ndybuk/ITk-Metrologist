@@ -6,7 +6,7 @@ import sys
 
 infotext = """
 <p style="text-align: center; font-size: 22px;">
-<b>ITk METROLOGIST</b><br>v2.0
+<b>ITk METROLOGIST</b><br>v2.1.0
 </p>
 <p style="text-align: center;"> <i>Author: Andy Bukowski</i> <br>
 <i>University of Liverpool</i></p>
@@ -32,6 +32,7 @@ itkdb v0.6.8 - Production Database<br><br>
 Icons - www.flaticon.com<br>
 gear icon made by Pixel perfect<br>
 webApp icon made by zafdesign<br>
+flask icon made by Bartama Graphic<br>
 information and gsheets icons made by Freepik<br>
 database icon made by Stockio</i>
 """

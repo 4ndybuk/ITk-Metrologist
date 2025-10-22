@@ -110,10 +110,10 @@ def bare_rules(sheet: worksheet,queue: Queue):
 
     queue.put(65)
 
-    seny_rule_pass = conditional_rule(sheet,'J:J',rule_dict["pass"],['41.1','41.15'],rule_dict["green"])
+    seny_rule_pass = conditional_rule(sheet,'J:J',rule_dict["pass"],['41.0','41.15'],rule_dict["green"])
     rules.append(seny_rule_pass)
 
-    seny_rule_fail = conditional_rule(sheet,'J:J',rule_dict["fail"],['41.1','41.15'],rule_dict["red"])
+    seny_rule_fail = conditional_rule(sheet,'J:J',rule_dict["fail"],['41.0','41.15'],rule_dict["red"])
     rules.append(seny_rule_fail)
 
     queue.put(70)
@@ -153,10 +153,10 @@ def assem_rules(sheet: worksheet,queue: Queue):
 
     queue.put(55)
 
-    ya_rule_pass = conditional_rule(sheet,'I:I',rule_dict["pass"],['41.1','41.15'],rule_dict["green"])
+    ya_rule_pass = conditional_rule(sheet,'I:I',rule_dict["pass"],['41.0','41.15'],rule_dict["green"])
     rules.append(ya_rule_pass)
     
-    ya_rule_fail = conditional_rule(sheet,'I:I',rule_dict["fail"],['41.1','41.15'],rule_dict["red"])
+    ya_rule_fail = conditional_rule(sheet,'I:I',rule_dict["fail"],['41.0','41.15'],rule_dict["red"])
     rules.append(ya_rule_fail)
 
     queue.put(60)
