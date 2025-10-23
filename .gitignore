@@ -13,3 +13,4 @@
 Keep the .gitignore tracked
 !.gitignore
 assets/credentials.json
+assets/__pycache__
