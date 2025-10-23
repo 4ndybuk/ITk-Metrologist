@@ -10,6 +10,7 @@
 !main.py
 !requirements.txt
 !LICENSE
+!README.md
 
 Keep the .gitignore tracked
 !.gitignore
