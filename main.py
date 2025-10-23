@@ -32,7 +32,7 @@ from ITk_ChipOrientation import ChipOrientation
 from ITk_ScanComponent import *
 
 class MyApp(QMainWindow):
-    def __init__(self):
+    def __init__(self, clipboard):
         super(MyApp,self).__init__()
 
         # Create an instance of the Ui_Mainwindow class
@@ -47,6 +47,9 @@ class MyApp(QMainWindow):
         self.client = None
         self.user = None
         self.bare_id = None
+
+        # Set up system wide clipboard
+        self.clipboard = clipboard
 
         ##################################################################
         # Page 1 Configurations
@@ -152,7 +155,8 @@ class MyApp(QMainWindow):
                                                                                 self.ui.scanTab.scan_input))
         self.ui.clear_button.clicked.connect(lambda: clear_table(self.ui.tableWidget))
         self.ui.copytable_button.clicked.connect(lambda: copy_table(self.ui.tableWidget,
-                                                                    self.ui.tablecopied_Label))
+                                                                    self.ui.tablecopied_Label,
+                                                                    self.clipboard))
 
         ###############################################################
         # Page 3 Configurations
@@ -508,9 +512,8 @@ class MyApp(QMainWindow):
                              QMessageBox.Ok)
             QApplication.setAttribute(Qt.ApplicationAttribute.AA_DontUseNativeDialogs, False)
         else:
-            clipboard = QClipboard()
             try:
-                clipboard.setText(", ".join(map(str,self.iref_trim_bits)))
+                self.clipboard.setText(", ".join(map(str,self.iref_trim_bits)))
                 self.ui.valuescopied_Label.show()
             except Exception as e:
                 print(e)
@@ -527,6 +530,7 @@ class MyApp(QMainWindow):
 
 def main():
     app = QApplication(sys.argv)
+    clipboard = app.clipboard()
 
     # Setting custom app palette
     palette = QPalette()
@@ -536,7 +540,7 @@ def main():
     palette.setColor(QPalette.Text, QColor(0, 0, 0))
     app.setPalette(palette)
 
-    window = MyApp()
+    window = MyApp(clipboard)
     window.show()
     sys.exit(app.exec())
 

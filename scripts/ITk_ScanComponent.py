@@ -85,11 +85,10 @@ def clear_table(table: QTableWidget):
     table.clearContents()
     table.setRowCount(0)
 
-def copy_table(table: QTableWidget, label: QLabel):
+def copy_table(table: QTableWidget, label: QLabel, clipboard: QClipboard):
     """
     Copy table contents to a clipboard
     """
-    clipboard = QClipboard()
     contents = ""
     # Iterate over the rows and columns to get the info
     for row in range(table.rowCount()):
