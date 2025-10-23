@@ -6,8 +6,9 @@
 !scripts/**
 !assets/
 !assets/**
-!"Install Packages.py"
+!install_packages.py
 !main.py
+!requirements.txt
 
 Keep the .gitignore tracked
 !.gitignore
