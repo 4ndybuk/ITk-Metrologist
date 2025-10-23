@@ -4,6 +4,10 @@
 # Except this folder
 !scripts/
 !scripts/**
+!assets/
+!assets/**
+!"Install Packages.py"
+!main.py
 
 Keep the .gitignore tracked
 !.gitignore
