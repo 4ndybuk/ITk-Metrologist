@@ -1,0 +1,10 @@
+# Ignore everything
+*
+
+# Except this folder
+!scripts/
+!scripts/**
+
+Keep the .gitignore tracked
+!.gitignore
+assets/credentials.json
