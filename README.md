@@ -5,7 +5,7 @@ Program designed for processing and analysing data associated with core pixel mo
 ![itkdb](https://img.shields.io/badge/itkdb-0.6.17-brightgreen)  
 ![PySide6](https://img.shields.io/badge/PySide6-6.10.0-brightgreen)  
 ![Plotly](https://img.shields.io/badge/Plotly-6.3.1-brightgreen)  
-![License](https://img.shields.io/badge/license-GPLv3.0-blue)  
+![License](https://img.shields.io/badge/license-NCL-blue)  
 
 ## Table of Contents
 - [Installation](#installation)
@@ -16,10 +16,18 @@ Program designed for processing and analysing data associated with core pixel mo
 
 ## Installation
 1. Open the terminal and locate the directory where you would like to clone the repository
-2. Run $ git clone https://github.com/4ndybuk/ITk-Metrologist
-3. Install dependancies with $ python install_packages.py
-4. Request credentials.json or utilise your own Google Sheets credentials file which needs to be placed in the **assets** folder
-4. Run the program with python main.py
+   ```
+   $ git clone https://github.com/4ndybuk/ITk-Metrologist
+   ```
+3. Install dependancies with
+   ```
+   $ python install_packages.py
+   ```
+5. Request credentials.json or utilise your own Google Sheets credentials file which needs to be placed in the **assets** folder
+4. Run the program with
+   ```
+   python main.py
+   ```
 
 ## Usage
 1. The program requires an existing account to the ITk Production Database, use both passwords to login
@@ -41,4 +49,4 @@ Program designed for processing and analysing data associated with core pixel mo
 4. Graphical plots by Plotly - www.plotly.com
 
 ## License
-1. This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
+1. This project is licensed under the Non-Commercial License - see the [LICENSE](LICENSE) file for details.
