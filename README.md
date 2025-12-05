@@ -42,6 +42,9 @@ Program designed for processing and analysing data associated with core pixel mo
 5. Custom table for more efficient component organsiation which works with barcode scanners or manual inputs
 6. Dockable toolbar with links to useful sites directly related to the project
 
+## Images
+<img src="assets/sample_images/main_page.png" width="300">  <img src="assets/sample_images/metrology_page.png" width="300">  <img src="assets/sample_images/iref_page.png" width="300">
+
 ## Acknowledgments
 1. Thanks to Pixel perfect, zafdesign, Freepik and Stockio from www.flaticon.com for Icons
 2. GUI designed using QT Framework for Python - PySide6
