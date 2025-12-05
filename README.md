@@ -11,6 +11,7 @@ Program designed for processing and analysing data associated with core pixel mo
 - [Installation](#installation)
 - [Usage](#usage)
 - [Features](#features)
+- [Images](#images)
 - [Acknowledgments](#acknowledgments)
 - [License](#license) 
 
