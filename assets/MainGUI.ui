@@ -1,0 +1,691 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>702</width>
+    <height>520</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>702</width>
+    <height>520</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>702</width>
+    <height>520</height>
+   </size>
+  </property>
+  <property name="baseSize">
+   <size>
+    <width>591</width>
+    <height>0</height>
+   </size>
+  </property>
+  <property name="font">
+   <font>
+    <family>.AppleSystemUIFont</family>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>ITk Metrologist - Pixel Data Analysis</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-image: url('/Users/andybukowski/Desktop/Python/Pyside/NewATLAS.jpg');
+background-repeat: no-repeat;
+background-position: center;
+background-size: cover;
+background-size: cover;
+</string>
+  </property>
+  <property name="unifiedTitleAndToolBarOnMac">
+   <bool>false</bool>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QStackedWidget" name="stackedWidget">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>50</y>
+      <width>661</width>
+      <height>421</height>
+     </rect>
+    </property>
+    <property name="tabletTracking">
+     <bool>false</bool>
+    </property>
+    <property name="toolTipDuration">
+     <number>1</number>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background: none;
+background-color: rgba(255, 255, 255, 0.4);
+border-radius: 20px;
+</string>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Raised</enum>
+    </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
+    <widget class="QWidget" name="page_1">
+     <widget class="QLabel" name="appTitle">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>30</y>
+        <width>581</width>
+        <height>91</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Open Sans</family>
+        <pointsize>42</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgba(255, 255, 255, 0.0);
+color: black;
+
+		
+        
+        	
+        </string>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:48pt;&quot;&gt;ITk METROLOGIST&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="acc1input">
+      <property name="geometry">
+       <rect>
+        <x>220</x>
+        <y>150</y>
+        <width>231</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgba(255, 255, 255, 0.8);
+border-radius: 15px;
+border: 1px solid #c0c0c0</string>
+      </property>
+      <property name="inputMask">
+       <string/>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignmentFlag::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="access1label">
+      <property name="geometry">
+       <rect>
+        <x>270</x>
+        <y>120</y>
+        <width>131</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgba(255, 255, 255, 0.0);
+</string>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; font-weight:700;&quot;&gt;Access Code 1:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="access2label">
+      <property name="geometry">
+       <rect>
+        <x>270</x>
+        <y>220</y>
+        <width>131</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgba(255, 255, 255, 0.0)</string>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; font-weight:700;&quot;&gt;Access Code 2:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="loginButton">
+      <property name="geometry">
+       <rect>
+        <x>280</x>
+        <y>310</y>
+        <width>111</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: white; /* Light gray background */
+border: 1px solid #c0c0c0; /* Light gray border */
+border-radius: 15px; /* Rounded corners */
+padding: 6px 12px; /* Padding around text */
+font-size: 13px; /* Font size */
+color: #000000; /* Text color */
+text-align: center; /* Center text */
+</string>
+      </property>
+      <property name="text">
+       <string>Log In</string>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+      <property name="checked">
+       <bool>false</bool>
+      </property>
+      <property name="autoDefault">
+       <bool>false</bool>
+      </property>
+      <property name="flat">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="quitButton">
+      <property name="geometry">
+       <rect>
+        <x>280</x>
+        <y>350</y>
+        <width>111</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: white; /* Light gray background */
+border: 1px solid #c0c0c0; /* Light gray border */
+border-radius: 15px; /* Rounded corners */
+padding: 6px 12px; /* Padding around text */
+font-size: 13px; /* Font size */
+color: #000000; /* Text color */
+text-align: center; /* Center text */</string>
+      </property>
+      <property name="text">
+       <string>Quit</string>
+      </property>
+      <property name="autoDefault">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="acc2input">
+      <property name="geometry">
+       <rect>
+        <x>220</x>
+        <y>250</y>
+        <width>231</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgba(255, 255, 255, 0.8);
+border-radius: 15px;
+border: 1px solid #c0c0c0</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignmentFlag::AlignCenter</set>
+      </property>
+      <property name="clearButtonEnabled">
+       <bool>false</bool>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="page_2">
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>10</y>
+        <width>661</width>
+        <height>431</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgba(255, 255, 255, 0.0);
+</string>
+      </property>
+      <property name="tabShape">
+       <enum>QTabWidget::TabShape::Rounded</enum>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="metrologyTab">
+       <attribute name="title">
+        <string>Metrology</string>
+       </attribute>
+       <widget class="QPushButton" name="importButton">
+        <property name="geometry">
+         <rect>
+          <x>270</x>
+          <y>110</y>
+          <width>121</width>
+          <height>30</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: white; /* Light gray background */
+border: 1px solid #c0c0c0; /* Light gray border */
+border-radius: 15px; /* Rounded corners */
+padding: 6px 12px; /* Padding around text */
+font-size: 13px; /* Font size */
+color: #000000; /* Text color */
+text-align: center; /* Center text */
+</string>
+        </property>
+        <property name="text">
+         <string>Import Files</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="descriptLabel">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>20</y>
+          <width>621</width>
+          <height>81</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgba(255, 255, 255, 0.8);
+border-radius: 15px;
+border: 1px solid #c0c0c0</string>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:700; font-style:italic;&quot;&gt;Componet Metrology&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;• Choose your .DAT and .STA file to obtain metrology measurements &lt;/p&gt;&lt;p align=&quot;center&quot;&gt;• Designed for &lt;span style=&quot; font-weight:700;&quot;&gt;Hybrid Flex&lt;/span&gt;, &lt;span style=&quot; font-weight:700;&quot;&gt;Bare Module&lt;/span&gt; and &lt;span style=&quot; font-weight:700;&quot;&gt;Assembled Module&lt;/span&gt; components&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QPlainTextEdit" name="dat_text">
+        <property name="geometry">
+         <rect>
+          <x>194</x>
+          <y>160</y>
+          <width>271</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgba(255, 255, 255, 0.8);
+border-radius: 15px;
+border: 1px solid #c0c0c0</string>
+        </property>
+        <property name="plainText">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QPlainTextEdit" name="sta_text">
+        <property name="geometry">
+         <rect>
+          <x>194</x>
+          <y>230</y>
+          <width>271</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgba(255, 255, 255, 0.8);
+border-radius: 15px;
+border: 1px solid #c0c0c0</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="measureButton">
+        <property name="geometry">
+         <rect>
+          <x>270</x>
+          <y>290</y>
+          <width>121</width>
+          <height>30</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: white; /* Light gray background */
+border: 1px solid #c0c0c0; /* Light gray border */
+border-radius: 15px; /* Rounded corners */
+padding: 6px 12px; /* Padding around text */
+font-size: 13px; /* Font size */
+color: #000000; /* Text color */
+text-align: center; /* Center text */
+</string>
+        </property>
+        <property name="text">
+         <string>Measure</string>
+        </property>
+       </widget>
+       <widget class="QWidget" name="layoutWidget">
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>340</y>
+          <width>501</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QPushButton" name="logoutButton">
+           <property name="styleSheet">
+            <string notr="true">background-color: white; /* Light gray background */
+border: 1px solid #c0c0c0; /* Light gray border */
+border-radius: 15px; /* Rounded corners */
+padding: 6px 12px; /* Padding around text */
+font-size: 13px; /* Font size */
+color: #000000; /* Text color */
+text-align: center; /* Center text */
+</string>
+           </property>
+           <property name="text">
+            <string>Log Out</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="plotButton">
+           <property name="styleSheet">
+            <string notr="true">background-color: white; /* Light gray background */
+border: 1px solid #c0c0c0; /* Light gray border */
+border-radius: 15px; /* Rounded corners */
+padding: 6px 12px; /* Padding around text */
+font-size: 13px; /* Font size */
+color: #000000; /* Text color */
+text-align: center; /* Center text */
+</string>
+           </property>
+           <property name="text">
+            <string>Plot Graphs</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QLabel" name="dat_label">
+        <property name="geometry">
+         <rect>
+          <x>290</x>
+          <y>140</y>
+          <width>89</width>
+          <height>71</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt; font-weight:700;&quot;&gt;.DAT File:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="sta_label">
+        <property name="geometry">
+         <rect>
+          <x>290</x>
+          <y>180</y>
+          <width>89</width>
+          <height>131</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt; font-weight:700;&quot;&gt;.STA File:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <zorder>sta_label</zorder>
+       <zorder>dat_label</zorder>
+       <zorder>importButton</zorder>
+       <zorder>descriptLabel</zorder>
+       <zorder>dat_text</zorder>
+       <zorder>sta_text</zorder>
+       <zorder>measureButton</zorder>
+       <zorder>layoutWidget</zorder>
+      </widget>
+      <widget class="QWidget" name="wirebondTab">
+       <attribute name="title">
+        <string>Wirebonding</string>
+       </attribute>
+       <widget class="QPushButton" name="import_csv_Button">
+        <property name="geometry">
+         <rect>
+          <x>270</x>
+          <y>110</y>
+          <width>121</width>
+          <height>30</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: white; /* Light gray background */
+border: 1px solid #c0c0c0; /* Light gray border */
+border-radius: 15px; /* Rounded corners */
+padding: 6px 12px; /* Padding around text */
+font-size: 13px; /* Font size */
+color: #000000; /* Text color */
+text-align: center; /* Center text */
+</string>
+        </property>
+        <property name="text">
+         <string>Import File</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="descriptLabel_wire">
+        <property name="geometry">
+         <rect>
+          <x>40</x>
+          <y>20</y>
+          <width>581</width>
+          <height>81</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgba(255, 255, 255, 0.8);
+border-radius: 15px;
+border: 1px solid #c0c0c0</string>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:700; font-style:italic;&quot;&gt;Pull Test Upload&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;• Choose your &lt;span style=&quot; font-weight:700;&quot;&gt;.CSV&lt;/span&gt; file to obtain pull test information&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;• Additional: Outputs a processed .CSV file in the same directory&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="csv_label">
+        <property name="geometry">
+         <rect>
+          <x>280</x>
+          <y>130</y>
+          <width>101</width>
+          <height>91</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt; font-weight:700;&quot;&gt;.CSV File:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="measure_csv_Button">
+        <property name="geometry">
+         <rect>
+          <x>270</x>
+          <y>210</y>
+          <width>121</width>
+          <height>30</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: white; /* Light gray background */
+border: 1px solid #c0c0c0; /* Light gray border */
+border-radius: 15px; /* Rounded corners */
+padding: 6px 12px; /* Padding around text */
+font-size: 13px; /* Font size */
+color: #000000; /* Text color */
+text-align: center; /* Center text */
+</string>
+        </property>
+        <property name="text">
+         <string>Measure</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="logoutButton_2">
+        <property name="geometry">
+         <rect>
+          <x>210</x>
+          <y>260</y>
+          <width>238</width>
+          <height>30</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: white; /* Light gray background */
+border: 1px solid #c0c0c0; /* Light gray border */
+border-radius: 15px; /* Rounded corners */
+padding: 6px 12px; /* Padding around text */
+font-size: 13px; /* Font size */
+color: #000000; /* Text color */
+text-align: center; /* Center text */
+</string>
+        </property>
+        <property name="text">
+         <string>Log Out</string>
+        </property>
+       </widget>
+       <widget class="QPlainTextEdit" name="csv_text">
+        <property name="geometry">
+         <rect>
+          <x>200</x>
+          <y>160</y>
+          <width>261</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgba(255, 255, 255, 0.8);
+border-radius: 15px;
+border: 1px solid #c0c0c0</string>
+        </property>
+        <property name="plainText">
+         <string/>
+        </property>
+       </widget>
+      </widget>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="page_3">
+     <widget class="QTextEdit" name="textLog">
+      <property name="geometry">
+       <rect>
+        <x>13</x>
+        <y>10</y>
+        <width>631</width>
+        <height>361</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgba(255, 255, 255, 0.9);
+border: 1px solid #c0c0c0</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="gobackButton">
+      <property name="geometry">
+       <rect>
+        <x>21</x>
+        <y>376</y>
+        <width>201</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: white; /* Light gray background */
+border: 1px solid #c0c0c0; /* Light gray border */
+border-radius: 15px; /* Rounded corners */
+padding: 6px 12px; /* Padding around text */
+font-size: 13px; /* Font size */
+color: #000000; /* Text color */
+text-align: center; /* Center text */
+</string>
+      </property>
+      <property name="text">
+       <string>Go Back</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="itkButton">
+      <property name="geometry">
+       <rect>
+        <x>232</x>
+        <y>376</y>
+        <width>201</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: white; /* Light gray background */
+border: 1px solid #c0c0c0; /* Light gray border */
+border-radius: 15px; /* Rounded corners */
+padding: 6px 12px; /* Padding around text */
+font-size: 13px; /* Font size */
+color: #000000; /* Text color */
+text-align: center; /* Center text */
+</string>
+      </property>
+      <property name="text">
+       <string>ITk Upload</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="sheetButton">
+      <property name="geometry">
+       <rect>
+        <x>443</x>
+        <y>376</y>
+        <width>191</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: white; /* Light gray background */
+border: 1px solid #c0c0c0; /* Light gray border */
+border-radius: 15px; /* Rounded corners */
+padding: 6px 12px; /* Padding around text */
+font-size: 13px; /* Font size */
+color: #000000; /* Text color */
+text-align: center; /* Center text */
+</string>
+      </property>
+      <property name="text">
+       <string>Sheets Upload</string>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QProgressBar" name="progressBar">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>470</y>
+      <width>641</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(87, 255, 83);</string>
+    </property>
+    <property name="value">
+     <number>24</number>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QStatusBar" name="statusbar">
+   <property name="styleSheet">
+    <string notr="true">background: none</string>
+   </property>
+   <property name="sizeGripEnabled">
+    <bool>true</bool>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
