@@ -39,17 +39,17 @@ to the Production Database as well as component inspection functionalities to va
 3. Have your bluetooth QR/barcode connected to the device to be used for the "Scan Components" feature
 
 ## Features
-1. **Metrology Data Pipeline**
+1. **Metrology Data Pipeline** - 
 Parse .STA and .DAT files and upload extracted measurements to the ATLAS production database as component test records.
-2. **3D Visualisation Tools**
+2. **3D Visualisation Tools** - 
 Generate interactive 3D plots of pixel components (pre- and post-processing) to indetify spatial inconsistencies and defects.
-3. **Wirebonding Data Integration**
+3. **Wirebonding Data Integration** - 
 Process wirebonding datasets and automate structured uploads to the production database.
-4. **IREF Trim Bit Analysis**
+4. **IREF Trim Bit Analysis** - 
 Retrieve IREF trim bit values from bare modules and provide graphical visualisation of FE chip orinetation prior to assembly.
-5. **Component Management Interface**
+5. **Component Management Interface** - 
 Custom table system for efficient component organisation, supporting both barcode scanner input and manual entry workflows.
-6. **Integrated Project Toolbar**
+6. **Integrated Project Toolbar** - 
 Dockable toolbar with quick access to project-relevant tools, dashboards, and resources.
 ## Acknowledgments
 1. Thanks to Pixel perfect, zafdesign, Freepik and Stockio from www.flaticon.com for Icons
