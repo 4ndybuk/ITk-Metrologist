@@ -57,5 +57,8 @@ Dockable toolbar with quick access to project-relevant tools, dashboards, and re
 3. Program powered by itkdb - ITk Production Database API wrapper
 4. Graphical plots by Plotly - www.plotly.com
 
+## Images
+<img src="assets/sample_images/metrology_page.png" width="300">  <img src="assets/sample_images/iref_page.png" width="300">
+
 ## License
 1. This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
