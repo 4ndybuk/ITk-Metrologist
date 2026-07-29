@@ -21,10 +21,13 @@ def upload_itk(component: dict,results: dict,client: Client,csv_path):
     
     """
 
-    # Date and time in ISO format for upload
+    # # Date and time in ISO format for upload
     today = datetime.today().strftime('%d/%m/%Y')
     mydate = datetime.strptime(today, '%d/%m/%Y')
     datetimeobject = datetime.combine(mydate,datetime.now(timezone.utc).time())
+
+    # Measurement time
+    sta_time = results['time']
 
     # Component dictionary for types and stage names
     test_dict = {"flextype": "PCB",
@@ -85,7 +88,7 @@ def upload_itk(component: dict,results: dict,client: Client,csv_path):
                     "properties": {
                         "ANALYSIS_VERSION": None,
                         "OPERATOR_IDENTITY": operator_identity(),
-                        "MEASUREMENT_DATE": datetimeobject.astimezone().isoformat(timespec='milliseconds'),
+                        "MEASUREMENT_DATE": sta_time.astimezone().isoformat(timespec='milliseconds'),
                         "MEASUREMENT_DURATION": None
                         
                     },
@@ -118,7 +121,7 @@ def upload_itk(component: dict,results: dict,client: Client,csv_path):
                     "properties": {
                         "ANALYSIS_VERSION": None,
                         "OPERATOR_IDENTITY": operator_identity(),
-                        "MEASUREMENT_DATE": datetimeobject.astimezone().isoformat(timespec='milliseconds'),
+                        "MEASUREMENT_DATE": sta_time.astimezone().isoformat(timespec='milliseconds'),
                         "MEASUREMENT_DURATION": None
                     },
                     "results": {
@@ -178,7 +181,7 @@ def upload_itk(component: dict,results: dict,client: Client,csv_path):
         return
     
     # Opening test web page
-    webbrowser.open(f"https://itkpd-test.unicorncollege.cz/testRunView?id={test_upload['testRun']['id']}",new = 2)
+    webbrowser.open(f"https://itkpd.unicornuniversity.net/testRunView?id={test_upload['testRun']['id']}",new = 2)
 
 def auto_run_number(component,test_type,stage_list,client: Client):
 

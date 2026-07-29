@@ -182,6 +182,7 @@ def acquire_data(file_name):
 
     """        
     acq_data = []
+    date_time = []
 
     with open(file_name, "r") as file:
         lines = file.readlines()
@@ -195,6 +196,12 @@ def acquire_data(file_name):
             if os.path.splitext(file_name)[1] == ".DAT":
 
                 line_list = line_new.split() # splits elements by empty white spaces
+
+                if "DATE" in line_new:
+                    date_time.append(line_new)
+
+                if "TIME" in line_new:
+                    date_time.append(line_new)
 
                 if len(line_list) != 3:
                     continue                 # ignores all lines which don't have 3 elements
@@ -216,6 +223,6 @@ def acquire_data(file_name):
 
             # Appending a filtered list to a new list and return the data upon calling the fucntion
             line_list_numbered = [float(element) for element in line_list]
-            acq_data.append(line_list_numbered) 
+            acq_data.append(line_list_numbered)
     
-    return acq_data
+    return acq_data, date_time

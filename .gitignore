@@ -1,0 +1,19 @@
+# Ignore everything
+*
+
+# Except this folder
+!scripts/
+!scripts/**
+!assets/
+!assets/**
+!install_packages.py
+!main.py
+!requirements.txt
+!LICENSE
+!README.md
+
+Keep the .gitignore tracked
+!.gitignore
+
+assets/credentials.json
+assets/__pycache__

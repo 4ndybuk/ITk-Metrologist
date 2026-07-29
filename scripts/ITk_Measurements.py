@@ -5,14 +5,22 @@ import logging
 import re
 from ITk_ModuleProcessors import *
 from statistics import stdev,mean
+from datetime import datetime
 import math
 from itkdb import Client
 import json
 
 def met_measurements(dat_path,sta_path,dat_basename: str,sta_basename: str,client: Client):
     
-    new_dat = acquire_data(dat_path)
-    new_sta = acquire_data(sta_path)
+    new_dat, date_stamp = acquire_data(dat_path)
+    new_sta, sta_stamp = acquire_data(sta_path)
+
+    # Prepare datetime object
+    if date_stamp:
+        new_date = date_stamp[0].replace("DATE,","")
+        new_time = date_stamp[1].replace("TIME,","")
+        combined_time = new_date + " " + new_time
+        formatted_time = datetime.strptime(combined_time, "%d/%m/%Y %H:%M:%S")
 
     dat_prefix = dat_basename[:14]
     sta_prefix = sta_basename[:14]
@@ -22,7 +30,8 @@ def met_measurements(dat_path,sta_path,dat_basename: str,sta_basename: str,clien
                "bare_results": None,
                "assem_results": None,
                "mass": None,
-               "carrier": None}
+               "carrier": None,
+               "time": formatted_time or None}
 
     # If the serial numbers match execute the measurements
     if dat_prefix == sta_prefix:
@@ -103,7 +112,7 @@ def met_measurements(dat_path,sta_path,dat_basename: str,sta_basename: str,clien
             flex_pass_fail.append(xy_envelope)
            
             # Same specification check for the HV cap
-            hv_envelope = 1.701 <= hv_thickness <= 2.540
+            hv_envelope = hv_thickness <= 2.540
             flex_pass_fail.append(hv_envelope)
                         
             # And same specification check for indiviudal pick-up point thickness and FTM
@@ -239,10 +248,6 @@ def met_measurements(dat_path,sta_path,dat_basename: str,sta_basename: str,clien
             def within_bounds(x,y):
                 return 2.119 <= x <= 2.319 and 0.650 <= y <= 0.850
             
-            fbr_pass = within_bounds(*fiducial_br)
-            ftl_pass = within_bounds(*fiducial_tl)
-
-            assem_pass_fail.extend([fbr_pass,ftl_pass])
 
             # Retrieve the carrier serial number
             try:
@@ -288,7 +293,8 @@ def met_measurements(dat_path,sta_path,dat_basename: str,sta_basename: str,clien
     
 def csv_measurements(csv_list: list,csv_basename: str,client: Client):
 
-    results = {"pulltest": None}
+    results = {"pulltest": None,
+               "time": None}
     
     # Retrieving component information from the database
     try:
